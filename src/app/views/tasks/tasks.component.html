@@ -16,10 +16,13 @@
         <tr *ngFor="let task of tasks">
           <td>{{task.id}}</td>
           <td>{{task.title}}</td>
-          <td>{{task.category}}</td>
-          <td>{{task.priority}}</td>
+          <td *ngIf="task.category; else no_category">{{task.category.title}}</td>
+          <ng-template #no_category><td>...</td></ng-template>
+          <td *ngIf="task.priority; else no_priority">{{task.priority.title}}</td>
+          <ng-template #no_priority><td>...</td></ng-template>
           <td>{{task.completed}}</td>
-          <td>{{task.date}}</td>
+          <td *ngIf="task.date; else no_date">{{task.date.toDateString()}}</td>
+          <ng-template #no_date><td>...</td></ng-template>
         </tr>
         </tbody>
       </table>
