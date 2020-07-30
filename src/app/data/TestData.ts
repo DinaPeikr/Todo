@@ -17,10 +17,10 @@ export class TestData {
     {id: 11, title: 'Repairs'},
   ];
   static priorities: Priority[] = [
-    {id: 1, title: 'Low', color: '#e5e5e5'},
-    {id: 2, title: 'Middle', color: '#85D1B2'},
-    {id: 3, title: 'High', color: '#F1828D'},
-    {id: 4, title: 'Very urgent!!', color: '#F1128D'}
+    {id: 1, title: 'Low', color: '#06B0C5'},
+    {id: 2, title: 'Middle', color: '#4EA952'},
+    {id: 3, title: 'High', color: '#EA4643'},
+    {id: 4, title: 'Very urgent!!', color: '#FC970F'}
   ];
 
   static tasks: Task[] = [

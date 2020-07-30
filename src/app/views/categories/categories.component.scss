@@ -1,7 +1,4 @@
-.testP{
-  background: #f90;
-  padding: 20px;
-  &.txt-white{
-    color: #fff;
-  }
+.sidebar .nav li a,
+.sidebar .nav li .dropdown-menu a {
+  cursor: pointer;
 }

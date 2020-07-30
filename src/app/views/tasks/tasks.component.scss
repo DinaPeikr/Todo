@@ -1,0 +1,22 @@
+.form-check {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 1.25rem;
+}
+
+.form-check .form-check-input:checked ~ .form-check-sign .check {
+  background: #ff9800;
+}
+.completed{
+  text-decoration: line-through;
+  color: #797979;
+}
+.novalue{
+  color: #b7b7b7;
+}
+.form-check .form-check-label {
+  padding-bottom: 14px;
+}
+.col-color {
+  width: 7px !important;
+}

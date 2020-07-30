@@ -15339,11 +15339,9 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   margin: 10px 15px 0;
   border-radius: 3px;
   color: #3C4858;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px 15px;
   text-transform: capitalize;
   font-size: 13px;
-  padding: 10px 15px;
 }
 
 .sidebar .sidebar-background {
