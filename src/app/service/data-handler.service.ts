@@ -37,6 +37,9 @@ export class DataHandlerService {
     this.tasksSubject.next(TestData.tasks);
   }
 
+  updateTask(task: Task): Observable<Task> {
+    return this.taskDaoArray.update(task);
+  }
 
   // fillTasksByCategory(category: Category): void {
   //   const tasks = TestData.tasks.filter((task) => task.category === category);

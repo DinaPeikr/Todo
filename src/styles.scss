@@ -11,8 +11,12 @@ p.not-found {
 }
 
 .mat-form-field.mat-focused .mat-form-field-ripple {
-  background-color: #ff9800;
+  // background-color: #ff9800;
 }
 .pointer{
   cursor: pointer;
+}
+
+.size20 {
+  font-size: 20px !important;
 }
