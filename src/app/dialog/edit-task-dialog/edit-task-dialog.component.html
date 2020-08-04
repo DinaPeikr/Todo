@@ -22,9 +22,62 @@
     </button>
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>Select Category</mat-label>
+
+    <mat-select [(ngModel)]="tmpCategory">
+      <mat-option [value]="null">No Category</mat-option>
+      <mat-option *ngFor="let cat of categories" [value]="cat">
+        {{cat.title}}
+      </mat-option>
+    </mat-select>
+
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select Priority</mat-label>
+
+    <mat-select [(ngModel)]="tmpPriority">
+
+      <!--      <mat-option [value]="null">No Priority</mat-option>-->
+      <mat-option *ngFor="let priority of priorities" [value]="priority">
+        {{priority.title}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+
+    <input
+      matInput placeholder="Select Completion Date" #inputDate
+      readonly="true"
+
+      [matDatepicker]="picker"
+      [(ngModel)]="tmpDate"
+
+      (click)="picker.open()">
+
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <!-- иконка календаря (для открытия календаря) -->
+
+    <mat-datepicker #picker></mat-datepicker> <!-- компонент календаря (открывается по нажатию)-->
+
+    <!--кнопка очистки даты -->
+    <button
+      *ngIf="inputDate.value.trim().length > 0"
+
+      mat-button matSuffix mat-icon-button aria-label="Clear"
+
+      (click)="tmpDate = null" class="size20">
+
+      <mat-icon>clear</mat-icon>
+
+    </button>
+
+  </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>
+  <div class="col col-md-5 col-12">
   <button
     (click)="onConfirm()" [disabled]="inputTitle.value.trim().length==0"
     color="primary"
@@ -32,4 +85,33 @@
     Save
   </button>
   <button (click)="onCancel()" mat-raised-button>Cancel</button>
+  </div>
+
+  <div class="col col-md-7 col-12 text-right">
+  <button
+    mat-raised-button class="green"
+    *ngIf="!task.completed"
+    (click)="complete()"
+
+  >
+    Completed
+  </button>
+
+  <button
+    mat-raised-button class="green"
+    (click)="activate()"
+    *ngIf="task.completed">
+
+    Activate
+
+  </button>
+  <button
+    mat-raised-button
+    class="red"
+    (click)="delete()"
+
+  >
+    Remove
+  </button>
+  </div>
 </mat-dialog-actions>

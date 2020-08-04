@@ -32,6 +32,9 @@ export class TasksComponent implements OnInit, AfterViewInit {
   @Output()
   updateTask = new EventEmitter<Task>();
 
+  @Output()
+  deleteTask = new EventEmitter<Task>();
+
   constructor(
     private dataHandlerService: DataHandlerService,
     private dialog: MatDialog,
@@ -41,7 +44,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     // this.tasks = this.dataHandlerService.getAllTasks();
 
-    // this.dataHandlerService.getAllTasks().subscribe(tasks => this.tasks = tasks);
+    this.dataHandlerService.getAllTasks().subscribe(tasks => this.tasks = tasks);
     this.tasksData = new MatTableDataSource();
     this.fillTable();
     // this.addTableObjects();
@@ -115,19 +118,39 @@ export class TasksComponent implements OnInit, AfterViewInit {
       {
         data: [task, 'Edit task'],
         autoFocus: false,
-        width: '40%',
-        height: '30%'
+        width: 'auto',
+        height: 'auto'
       });
 
-    dialogRef.afterClosed().subscribe(({...res}) => {
+    dialogRef.afterClosed().subscribe((result) => {
 
-      const result = (res.title) ? `Dialog result: ${res.title}` : `Task title: ${task.title}`;
-      console.log(result);
+      // const result = (res.title) ? `Dialog result: ${res.title}` : `Task title: ${task.title}`;
+      // console.log(result);
 
-      if (res as Task) {
+      if (result === 'complete') {
+        console.log(result);
+        task.completed = true;
         this.updateTask.emit(task);
         return;
       }
+      if (result === 'activate') {
+        console.log(result);
+        task.completed = false;
+        this.updateTask.emit(task);
+        return;
+      }
+      if (result === 'delete') {
+        console.log(result);
+        this.deleteTask.emit(task);
+        return;
+      }
+
+      if (result as Task) {
+        this.updateTask.emit(task);
+        return;
+      }
+
+
     });
   }
 }

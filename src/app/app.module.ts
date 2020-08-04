@@ -17,6 +17,10 @@ import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -24,7 +28,8 @@ import {MatIconModule} from '@angular/material/icon';
     AppComponent,
     CategoriesComponent,
     TasksComponent,
-    EditTaskDialogComponent
+    EditTaskDialogComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -38,10 +43,17 @@ import {MatIconModule} from '@angular/material/icon';
     FormsModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [],
-  entryComponents: [EditTaskDialogComponent],
+  entryComponents: [
+    EditTaskDialogComponent,
+    ConfirmDialogComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PriorityDAOArray = void 0;
+var rxjs_1 = require("rxjs");
+var TestData_1 = require("../../TestData");
 var PriorityDAOArray = /** @class */ (function () {
     function PriorityDAOArray() {
     }
@@ -14,7 +16,7 @@ var PriorityDAOArray = /** @class */ (function () {
         return undefined;
     };
     PriorityDAOArray.prototype.getAll = function () {
-        return undefined;
+        return rxjs_1.of(TestData_1.TestData.priorities);
     };
     PriorityDAOArray.prototype.update = function (T) {
         return undefined;

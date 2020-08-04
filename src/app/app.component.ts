@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataHandlerService.getAllTasks().subscribe(tasks => this.tasks = tasks);
+    // this.dataHandlerService.getAllTasks().subscribe(tasks => this.tasks = tasks);
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
 
   }
@@ -49,5 +49,20 @@ export class AppComponent implements OnInit {
         this.tasks = tasks;
       });
     });
+  }
+
+  onDeleteTask(task: Task): any {
+    this.dataHandlerService.deleteTask(task.id).subscribe(() => {
+      this.dataHandlerService.getTasksByCategory(
+        this.selectedCategory,
+        null,
+        null,
+        null
+      ).subscribe(tasks => {
+        this.tasks = tasks;
+      });
+    });
+
+
   }
 }
