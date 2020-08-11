@@ -21,7 +21,17 @@ import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import { ConfirmDialogComponent } from './dialog/confirm-dialog/confirm-dialog.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { TaskDatePipe } from './pipe/task-date.pipe';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {EditCategoryDialogComponent} from './dialog/edit-category-dialog/edit-category-dialog.component';
 
+import {registerLocaleData} from '@angular/common';
+import localeGe from '@angular/common/locales/ka';
+import localeRu from '@angular/common/locales/ru';
+
+
+registerLocaleData(localeGe);
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
@@ -29,7 +39,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     CategoriesComponent,
     TasksComponent,
     EditTaskDialogComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    TaskDatePipe,
+    EditCategoryDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,11 +60,13 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatCheckboxModule
   ],
   providers: [],
   entryComponents: [
     EditTaskDialogComponent,
     ConfirmDialogComponent,
+    EditCategoryDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

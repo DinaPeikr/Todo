@@ -9,10 +9,39 @@
   </a></div>
   <div class="sidebar-wrapper">
     <ul class="nav">
-      <li class="nav-item" [class.active]="category === selectedCategory" *ngFor="let category of categories" (click)="showTasksByCategory(category)">
+      <li class="nav-item category"
+          (click)="showTasksByCategory(null)"
+          [class.active]="selectedCategory === null">
+
         <a class="nav-link">
-          <i class="material-icons">dashboard</i>
-          <p>{{category.title}}</p>
+          <i class="material-icons category-icons">dashboard</i>
+          <p class="all-category-title">Все</p>
+        </a>
+      </li>
+
+      <div class="line"></div>
+
+      <li class="nav-item"
+          [class.active]="category === selectedCategory"
+          *ngFor="let category of categories; let index = index "
+          (click)="showTasksByCategory(category)"
+          (mouseleave)="showEditIcon(null)"
+          (mouseenter)="showEditIcon(index)"
+      >
+        <a class="nav-link">
+          <i class="material-icons category-icons">dashboard</i>
+          <p class="category-title">{{category.title}}</p>
+          <p class="edit-category-icon-area">
+            <mat-icon
+              *ngIf="indexMouseMove === index"
+              (click)="$event.stopPropagation(); openEditDialog(category)"
+
+              class="edit-category-icon"
+
+
+            >edit
+            </mat-icon>
+          </p>
         </a>
       </li>
     </ul>

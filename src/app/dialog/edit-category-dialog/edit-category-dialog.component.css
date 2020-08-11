@@ -1,0 +1,38 @@
+.mat-dialog-title {
+  text-align: center;
+}
+
+.mat-dialog-actions {
+
+  justify-content: center;
+  margin-top: 10%;
+  margin-bottom: -6px;
+}
+
+.mat-form-field {
+
+  width: 100%;
+}
+
+.mat-form-field-infix {
+
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  height: 35px;
+}
+
+.mat-raised-button {
+  width: auto;
+  flex-grow: 1;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}

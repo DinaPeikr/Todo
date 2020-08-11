@@ -4,9 +4,10 @@ import {Task} from '../../model/Task';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {Category} from '../../model/Category';
 import {EditTaskDialogComponent} from '../../dialog/edit-task-dialog/edit-task-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from '../../dialog/confirm-dialog/confirm-dialog.component';
+import {Category} from '../../model/Category';
 
 @Component({
   selector: 'app-tasks',
@@ -14,7 +15,7 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'color', 'title', 'category', 'priority', 'date', 'status'];
+  displayedColumns: string[] = ['id', 'color', 'title', 'category', 'priority', 'date', 'operations', 'status'];
   tasksData: MatTableDataSource<Task>;
 
   @ViewChild(MatSort, {static: false}) private sort: MatSort;
@@ -34,6 +35,9 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
   @Output()
   deleteTask = new EventEmitter<Task>();
+
+  @Output()
+  selectCategory = new EventEmitter<Category>();
 
   constructor(
     private dataHandlerService: DataHandlerService,
@@ -87,8 +91,9 @@ export class TasksComponent implements OnInit, AfterViewInit {
     };
   }
 
-  toggleTaskCompleted(task: Task): void {
+  toggleTaskStatus(task: Task): void {
     task.completed = !task.completed;
+    this.updateTask.emit(task);
   }
 
   private getPriorityColor(task: Task): string {
@@ -152,5 +157,25 @@ export class TasksComponent implements OnInit, AfterViewInit {
 
 
     });
+  }
+
+  openDeleteDialog(task: Task): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent,
+      {
+        data: {dialogTitle: 'Confirm action', message: `Are you sure to delete this task? <br> "${task.title}"`},
+        autoFocus: false,
+        maxWidth: '500px',
+        height: 'auto'
+      });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteTask.emit(task);
+      }
+    });
+  }
+
+  onShowTasksByCategory(category: Category): any {
+    this.selectCategory.emit(category);
+    console.log(category);
   }
 }

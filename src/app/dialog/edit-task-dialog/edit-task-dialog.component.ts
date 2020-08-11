@@ -65,7 +65,8 @@ export class EditTaskDialogComponent implements OnInit {
   delete(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent,
       {
-        data: {dialogTitle: 'Confirm action', message: `Are you sure to delete this task? <br> "${this.task.title}"`},
+        data: {dialogTitle: 'Confirm action',
+        message: `Are you sure to delete this task? <br> "${this.task.title}"`},
         autoFocus: false,
         maxWidth: '500px',
         height: 'auto'

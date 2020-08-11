@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   tasks: Task[];
   categories: Category[];
   date = new Date().getFullYear();
-  private selectedCategory: Category = null;
+  selectedCategory: Category = null;
 
   constructor(private dataHandlerService: DataHandlerService) {
 
@@ -62,7 +62,5 @@ export class AppComponent implements OnInit {
         this.tasks = tasks;
       });
     });
-
-
   }
 }
