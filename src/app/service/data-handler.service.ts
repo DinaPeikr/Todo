@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Category} from '../model/Category';
 import {TestData} from '../data/TestData';
 import {Task} from '../model/Task';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {TaskDAOArray} from '../data/dao/implementations/TaskDAOArray';
 import {CategoryDAOArray} from '../data/dao/implementations/CategoryDAOArray';
 import {Priority} from '../model/Priority';
@@ -46,13 +46,16 @@ export class DataHandlerService {
   deleteTask(id: number): Observable<Task> {
     return this.taskDaoArray.delete(id);
   }
+  addTask(task: Task): Observable<Task> {
+    return this.taskDaoArray.add(task);
+  }
   // fillTasksByCategory(category: Category): void {
   //   const tasks = TestData.tasks.filter((task) => task.category === category);
   //   // console.log(tasks);
   //   this.tasksSubject.next(tasks);
   // }
 
-  getTasksByCategory(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
+  getTasksByParams(category: Category, searchText: string, status: boolean, priority: Priority): Observable<Task[]> {
     return this.taskDaoArray.search(category, searchText, status, priority);
   }
 
@@ -60,4 +63,19 @@ export class DataHandlerService {
     return this.priorityDaoArray.getAll();
   }
 
+  updateCategory(category: Category): Observable<Category> {
+    return this.categoryDaoArray.update(category);
+  }
+
+  deleteCategory(id: number): Observable<Category> {
+    return this.categoryDaoArray.delete(id);
+  }
+  addCategory(title: string): Observable<Category> {
+    return this.categoryDaoArray.add(new Category(null, title));
+  }
+
+
+  searchCategories(title: string): Observable<Category[]> {
+    return this.categoryDaoArray.search(title);
+  }
 }

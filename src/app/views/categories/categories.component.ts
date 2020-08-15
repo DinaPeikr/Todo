@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Category} from '../../model/Category';
 import {DataHandlerService} from '../../service/data-handler.service';
-import {Task} from '../../model/Task';
 import {EditCategoryDialogComponent} from '../../dialog/edit-category-dialog/edit-category-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {OperType} from '../../dialog/OperType';
 
 @Component({
   selector: 'app-categories',
@@ -23,10 +23,18 @@ export class CategoriesComponent implements OnInit {
   @Output()
   updateCategory = new EventEmitter<Category>();
 
+  @Output()
+  addCategory = new EventEmitter<Category>();
+
+// поиск категории
+  @Output()
+  searchCategory = new EventEmitter<string>(); // передаем строку для поиска
+
   @Input()
   selectedCategory: Category;
 
   indexMouseMove: number;
+  searchCategoryTitle: string; // текущее значение для поиска категорий
 
   constructor(
     private dataHandlerService: DataHandlerService,
@@ -57,7 +65,7 @@ export class CategoriesComponent implements OnInit {
     console.log(category.title);
     const dialogRef = this.dialog.open(EditCategoryDialogComponent,
       {
-        data: [category.title, 'Edit category'],
+        data: [category.title, 'Edit category', OperType.EDIT],
         autoFocus: false,
         width: 'auto',
         height: 'auto'
@@ -65,19 +73,47 @@ export class CategoriesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
 
-      // console.log(result);
+      console.log(result);
       if (result === 'delete') {
         console.log(result);
         this.deleteCategory.emit(category);
         return;
       }
 
-      if (result as Task) {
+      if (result as string) {
+        category.title = result as string;
         this.updateCategory.emit(category);
         return;
       }
 
 
     });
+  }
+
+  openAddDialog(): any {
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: ['', 'Добавление категории', OperType.ADD],
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result) {
+        // @ts-ignore
+        this.addCategory.emit(result as string);
+        return;
+      }
+    });
+
+  }
+
+  // поиск категории
+   search(): void {
+    if (this.searchCategoryTitle == null ) {
+      return;
+    }
+
+    this.searchCategory.emit(this.searchCategoryTitle);
+
   }
 }

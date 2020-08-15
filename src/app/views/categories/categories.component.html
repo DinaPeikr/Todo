@@ -1,14 +1,50 @@
 <div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
-  <!--
-    Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-    Tip 2: you can also add an image using data-image tag
--->
-  <div class="logo"><a href="http://www.creative-tim.com" class="simple-text logo-normal">
-    Creative Tim
-  </a></div>
+  <div class="logo">
+    <span class="nav-title simple-text logo-normal">
+    Category
+  </span>
+    <span class="add-icon-area">
+          <button mat-icon-button  class="add-icon">
+      <mat-icon (click)="openAddDialog()">add</mat-icon>
+        </button>
+    </span>
+  </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
+      <!--      поиск категорий -->
+      <div class="search-category-area text-center">
+
+        <mat-form-field class="example-full-width">
+          <input
+
+              #inputSearchCategory
+
+              (keydown.escape)="searchCategoryTitle = ''; search()"
+              (keyup)="search()"
+              [(ngModel)]="searchCategoryTitle"
+
+              matInput
+              maxlength="256"
+              placeholder="Search Category"
+
+          />
+
+          <button
+            (click)="searchCategoryTitle = ''; search()"
+            *ngIf="inputSearchCategory.value.trim().length > 0" aria-label="Clear"
+            class="search-category-button size20 gray"
+            mat-button
+
+            mat-icon-button
+
+            matSuffix
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+
+        </mat-form-field>
+
+      </div>
       <li class="nav-item category"
           (click)="showTasksByCategory(null)"
           [class.active]="selectedCategory === null">
@@ -20,6 +56,8 @@
       </li>
 
       <div class="line"></div>
+
+      <li class="nav-item" *ngIf="categories.length === 0"> <a class="nav-link"><p class="category-title">No categories found</p></a></li>
 
       <li class="nav-item"
           [class.active]="category === selectedCategory"

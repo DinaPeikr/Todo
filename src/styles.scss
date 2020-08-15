@@ -27,3 +27,9 @@ p.not-found {
 .sidebar[data-color="purple"] li.active>a .edit-category-icon {
   color: #fff;
 }
+.sidebar .logo {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}

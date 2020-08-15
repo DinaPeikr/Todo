@@ -5,6 +5,7 @@ import {Task} from '../../model/Task';
 import {Category} from '../../model/Category';
 import {Priority} from '../../model/Priority';
 import {ConfirmDialogComponent} from '../confirm-dialog/confirm-dialog.component';
+import {OperType} from '../OperType';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -17,6 +18,7 @@ export class EditTaskDialogComponent implements OnInit {
 
   dialogTitle: string;
   task: Task;
+  operType: OperType;
   tmpTitle: string;
   tmpCategory: Category;
   tmpPriority: Priority;
@@ -25,7 +27,7 @@ export class EditTaskDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    private data: [Task, string],
+    private data: [Task, string, OperType],
     private dataHandlerServer: DataHandlerService,
     private dialog: MatDialog
   ) {
@@ -34,6 +36,7 @@ export class EditTaskDialogComponent implements OnInit {
   ngOnInit(): void {
     this.task = this.data[0]; // задача для редактирования/создания
     this.dialogTitle = this.data[1]; // текст для диалогового окна
+    this.operType = this.data[2];
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
     this.tmpPriority = this.task.priority;
@@ -84,5 +87,13 @@ export class EditTaskDialogComponent implements OnInit {
 
   activate(): void {
     this.dialogRef.close('activate');
+  }
+
+   canDelete(): boolean {
+    return this.operType === OperType.EDIT;
+  }
+
+   canActivateDesactivate(): boolean {
+    return this.operType === OperType.EDIT;
   }
 }

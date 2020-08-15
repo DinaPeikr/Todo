@@ -90,7 +90,7 @@
   <div class="col col-md-7 col-12 text-right">
   <button
     mat-raised-button class="green"
-    *ngIf="!task.completed"
+    *ngIf="!task.completed && canActivateDesactivate()"
     (click)="complete()"
 
   >
@@ -100,7 +100,7 @@
   <button
     mat-raised-button class="green"
     (click)="activate()"
-    *ngIf="task.completed">
+    *ngIf="task.completed && canActivateDesactivate()">
 
     Activate
 
@@ -108,6 +108,7 @@
   <button
     mat-raised-button
     class="red"
+    *ngIf="canDelete()"
     (click)="delete()"
 
   >

@@ -1,3 +1,96 @@
+<div class="row">
+
+  <div class="col-md-3 col-sm-12">
+    <!--    поиск задач-->
+    <mat-form-field>
+      <input
+          #filterInput
+
+          (keydown.escape)="searchTaskText = ''; onFilterByTitle()"
+
+          (keyup)="onFilterByTitle()"
+
+          [(ngModel)]="searchTaskText"
+
+          matInput
+          placeholder="Search in current category"
+      >
+      <button
+        (click)="searchTaskText = ''; onFilterByTitle()"
+
+        *ngIf="filterInput.value.trim().length > 0"
+
+        aria-label="Clear" class="clear-icon size20 gray" mat-button
+        mat-icon-button
+
+        matSuffix
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-3 col-sm-12">
+    <!--    фильтр по статусу -->
+    <mat-form-field>
+      <mat-select #statusFilter (valueChange)="onFilterByStatus(this.$event)"
+                  [value]="selectedStatusFilter" placeholder="Filter by status">
+        <mat-option [value]="null">All statuses</mat-option>
+        <mat-option [value]="true">Completed task</mat-option>
+        <mat-option [value]="false">Uncompleted task</mat-option>
+      </mat-select>
+      <button
+        (click)="$event.stopPropagation(); onFilterByStatus(null)"
+        *ngIf="selectedStatusFilter != null"
+        aria-label="Clear" class="clear-icon size20 gray" mat-button
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-3 col-sm-12">
+    <!--    фильтр по priority -->
+    <mat-form-field>
+      <mat-select (valueChange)="onFilterByPriority(this.$event)"
+                  [value]="selectedPriorityFilter" placeholder="Filter by priority">
+        <mat-option [value]="null">All priorities</mat-option>
+        <mat-option *ngFor="let priority of priorities" [value]="priority">{{priority.title}}</mat-option>
+      </mat-select>
+      <button
+        (click)="$event.stopPropagation(); onFilterByPriority(null)"
+        *ngIf="selectedPriorityFilter != null"
+        aria-label="Clear" class="clear-icon size20 gray" mat-button
+        mat-icon-button
+        matSuffix
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-3 col-sm-12 text-right">
+    <div class="row">
+      <div class="text-left col-6">
+        <button
+          (click)="$event.stopPropagation(); onFilterByStatus(null); onFilterByPriority(null); searchTaskText = ''; onFilterByTitle()"
+          *ngIf="selectedStatusFilter != null || selectedPriorityFilter != null ||  (searchTaskText != null && searchTaskText.trim() != '') "
+          aria-label="Clear"
+          mat-raised-button
+          matSuffix
+        >
+          Reset filters
+        </button>
+      </div>
+      <div class="text-right col-6">
+        <button (click)="openAddTaskDialog()" color="primary" mat-raised-button>Add Task</button>
+      </div>
+    </div>
+  </div>
+
+<div class="col-md-12 task-list">
 <div class="card">
   <div class="card-header card-header-warning">
     <h4 class="card-title">Tasks List</h4>
@@ -95,4 +188,6 @@
 
   </div>
   <div *ngIf="!tasks || !tasks.length"><p class="not-found">No Tasks</p></div>
+</div>
+</div>
 </div>
