@@ -33,3 +33,17 @@ p.not-found {
   align-items: center;
   justify-content: space-evenly;
 }
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.main-panel > .content{
+  margin-top: 30px !important;
+}
+
+app-header{
+  width: 100%;
+}
+.gray {
+  color: #8f8f8f;
+}

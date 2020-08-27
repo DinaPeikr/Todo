@@ -3,6 +3,8 @@ import {Task} from './model/Task';
 import {DataHandlerService} from './service/data-handler.service';
 import {Category} from './model/Category';
 import {Priority} from './model/Priority';
+import {zip} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +26,15 @@ export class AppComponent implements OnInit {
   statusFilter: boolean;
   priorityFilter: Priority;
 
+  // статистика
+  totalTasksCountInCategory: number;
+  completedCountInCategory: number;
+  uncompletedCountInCategory: number;
+  uncompletedTotalTasksCount: number;
+
+  // показать/скрыть статистику
+  showStat = true;
+
   constructor(private dataHandlerService: DataHandlerService) {
 
   }
@@ -33,11 +44,13 @@ export class AppComponent implements OnInit {
     this.dataHandlerService.getAllPriorities().subscribe(priorities => this.priorities = priorities);
     this.dataHandlerService.getAllCategories().subscribe(categories => this.categories = categories);
     // this.onSelectCategory(null); // показать все задачи
+    this.updateTasksAndStat();
   }
 
   onSelectCategory(category: Category): void {
     this.selectedCategory = category;
-    this.updateTasks();
+    // this.updateTasks();
+    this.updateTasksAndStat();
     // this.dataHandlerService.getTasksByParams(
     //   this.selectedCategory,
     //   null,
@@ -64,7 +77,8 @@ export class AppComponent implements OnInit {
   onUpdateTask(task: Task): any {
     // console.log(task);
     this.dataHandlerService.updateTask(task).subscribe(() => {
-      this.updateTasks();
+      // this.updateTasks();
+      this.updateTasksAndStat();
       // this.dataHandlerService.getTasksByParams(
       //   this.selectedCategory,
       //   null,
@@ -78,7 +92,8 @@ export class AppComponent implements OnInit {
 
   onDeleteTask(task: Task): any {
     this.dataHandlerService.deleteTask(task.id).subscribe(() => {
-      this.updateTasks();
+      //  this.updateTasks();
+      this.updateTasksAndStat();
       //   this.dataHandlerService.getTasksByParams(
       //     this.selectedCategory,
       //     null,
@@ -125,8 +140,8 @@ export class AppComponent implements OnInit {
 
     this.dataHandlerService.addTask(task).subscribe(result => {
 
-      this.updateTasks();
-
+      // this.updateTasks();
+      this.updateTasksAndStat();
     });
 
   }
@@ -148,5 +163,39 @@ export class AppComponent implements OnInit {
     this.dataHandlerService.searchCategories(title).subscribe(categories => {
       this.categories = categories;
     });
+  }
+
+  // показывает задачи с применением всех текущий условий (категория, поиск, фильтры и пр.)
+  updateTasksAndStat(): void {
+
+    this.updateTasks(); // обновить список задач
+
+    // обновить переменные для статистики
+    this.updateStat();
+
+  }
+
+  // обновить статистику
+  updateStat(): any {
+    const totalTasksCountInCategory = this.dataHandlerService.getTotalCountInCategory(this.selectedCategory);
+    const completedCountInCategory = this.dataHandlerService.getCompletedCountInCategory(this.selectedCategory);
+    const uncompletedCountInCategory = this.dataHandlerService.getUncompletedCountInCategory(this.selectedCategory);
+    const uncompletedTotalTasksCount = this.dataHandlerService.getUncompletedTotalCount();
+    zip(
+      totalTasksCountInCategory,
+      completedCountInCategory,
+      uncompletedCountInCategory,
+      uncompletedTotalTasksCount)
+      .subscribe(array => {
+        this.totalTasksCountInCategory = array[0];
+        this.completedCountInCategory = array[1];
+        this.uncompletedCountInCategory = array[2];
+        this.uncompletedTotalTasksCount = array[3]; // нужно для категории Все
+      });
+  }
+
+  // показать-скрыть статистику
+  toggleStat(showStat: boolean): void {
+    this.showStat = showStat;
   }
 }

@@ -43,3 +43,10 @@
 .sidebar[data-color="purple"] li.active>a .edit-category-icon {
   color: #fff;
 }
+#categories {
+  width: 100%;
+  overflow-x: hidden; /* чтобы не было гориз. прокрутки */
+}
+.sidebar-background {
+  background-image: url(../../../assets/img/sidebar-1.jpg) !important;
+}

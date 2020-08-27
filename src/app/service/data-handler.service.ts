@@ -14,9 +14,9 @@ import {PriorityDAOArray} from '../data/dao/implementations/PriorityDAOArray';
 export class DataHandlerService {
   tasksSubject = new BehaviorSubject<Task[]>(TestData.tasks);
   categoriesSubject = new BehaviorSubject<Category[]>(TestData.categories);
-  private taskDaoArray = new TaskDAOArray();
-  private categoryDaoArray = new CategoryDAOArray();
-  private priorityDaoArray = new PriorityDAOArray();
+   taskDaoArray = new TaskDAOArray();
+   categoryDaoArray = new CategoryDAOArray();
+   priorityDaoArray = new PriorityDAOArray();
 
   constructor() {
     this.fillTasks();
@@ -59,10 +59,6 @@ export class DataHandlerService {
     return this.taskDaoArray.search(category, searchText, status, priority);
   }
 
-  getAllPriorities(): Observable<Priority[]> {
-    return this.priorityDaoArray.getAll();
-  }
-
   updateCategory(category: Category): Observable<Category> {
     return this.categoryDaoArray.update(category);
   }
@@ -77,5 +73,38 @@ export class DataHandlerService {
 
   searchCategories(title: string): Observable<Category[]> {
     return this.categoryDaoArray.search(title);
+  }
+
+  // статистика
+
+  getCompletedCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getCompletedCountInCategory(category);
+  }
+
+  getUncompletedTotalCount(): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(null);
+  }
+
+  getUncompletedCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getUncompletedCountInCategory(category);
+  }
+
+  getTotalCountInCategory(category: Category): Observable<number> {
+    return this.taskDaoArray.getTotalCountInCategory(category);
+  }
+
+  getAllPriorities(): Observable<Priority[]> {
+    return this.priorityDaoArray.getAll();
+  }
+  addPriority(priority: Priority): Observable<Priority> {
+    return this.priorityDaoArray.add(priority);
+  }
+
+  deletePriority(id: number): Observable<Priority> {
+    return this.priorityDaoArray.delete(id);
+  }
+
+  updatePriority(priority: Priority): Observable<Priority> {
+    return this.priorityDaoArray.update(priority);
   }
 }
